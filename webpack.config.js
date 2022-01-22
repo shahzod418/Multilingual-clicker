@@ -26,7 +26,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'App for article',
-      template: path.resolve(__dirname, 'assets','./template.html'),
+      template: path.resolve(__dirname, 'assets', './template.html'),
       filename: 'index.html',
     }),
     new CleanWebpackPlugin(),

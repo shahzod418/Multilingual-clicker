@@ -1,4 +1,4 @@
-name: eslint-codeclimate-test
+name: eslint-test
 
 on:
   - push
