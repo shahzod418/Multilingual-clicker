@@ -37,14 +37,14 @@
                     <button type="button" class="btn btn-danger mb-3">Reset</button>
                     <form class="row mx-auto d-flex flex-column mt-3">
                         <div class="col-auto align-self-center mb-1">
-                            <label for="add-language" class="col-form-label">Add language</label>
+                            <label for="add-language" class="col-form-label text-center">Add language</label>
                         </div>
                         <div class="col-auto align-self-center mb-1">
                             <label for="file-form-input" class="btn btn-success">Choose file</label>
                             <input type="file" id="file-form-input" name="file" class="form-control btn btn-light" style="display: none;">
                         </div>
                         <div class="col-auto align-self-center mb-1">
-                            <label for="file-form-language" class="col-form-label">Enter the name of the language</label>
+                            <label for="file-form-language" class="col-form-label text-center">Enter the name of the language</label>
                         </div>
                         <div class="col-auto align-self-center mb-3">
                             <input type="text" id="file-form-language" name="language" placeholder="Language" class="form-control btn-light">
@@ -60,7 +60,13 @@
                                     Manual input
                                 </button>
                             </h2>
-                            <form id="collapseOne" class="accordion-collapse collapse form-floating" aria-labelledby="heading" data-bs-parent="#accordion">
+                            <form id="collapseOne" class="accordion-collapse collapse form-floating show" aria-labelledby="heading" data-bs-parent="#accordion">
+                                <div class="accordion-body bg-dark input-group">
+                                    <label for="exampleInputEmail1" class="input-group-text">Language</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <label for="exampleInputPassword1" class="input-group-text">Сode</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1">
+                                </div>
                                 <div class="accordion-body input-group bg-dark">
                                     <textarea class="form-control"></textarea>
                                     <button class="btn btn-warning">Example</button>
