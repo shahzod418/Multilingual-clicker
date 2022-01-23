@@ -12,15 +12,16 @@ export default {
       },
       reset: 'Reset',
     },
-    form: {
+    forms: {
       label: 'Add language',
       placeholder: 'Language',
+      file: 'Choose file',
+      languageLabel: 'Enter the name of the language',
+      languagePlaceholder: 'Language',
       submit: 'Add',
-    },
-    footer: {
-      text: 'created by',
-      author: 'Davlatov Shahzod',
-      link: 'https://github.com/shahzod418',
+      code: 'EN',
+      example: 'Example',
+      accordionHeader: 'Manual input',
     },
   },
 };

@@ -13,15 +13,16 @@ export default {
       },
       reset: 'Сбросить',
     },
-    form: {
+    forms: {
       label: 'Добавить язык',
       placeholder: 'Язык',
+      file: 'Выберите файл',
+      languageLabel: 'Введите название языка',
+      languagePlaceholder: 'Язык',
       submit: 'Добавить',
-    },
-    footer: {
-      text: 'создано',
-      author: 'Давлатовым Шахзодом',
-      link: 'https://github.com/shahzod418',
+      code: 'RU',
+      example: 'Пример',
+      accordionHeader: 'Ручной ввод',
     },
   },
 };

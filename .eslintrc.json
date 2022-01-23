@@ -18,6 +18,7 @@
     "rules": {
         "prettier/prettier": "error",
         "no-console": 0,
-        "quotes": [2, "single", { "avoidEscape": true }]
+        "quotes": [2, "single", { "avoidEscape": true }],
+        "no-param-reassign": 0
     }
 }

@@ -12,11 +12,11 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.(js)$/,
-        exclude: /node_modules/,
-        use: 'babel-loader',
-      },
+      // {
+      //   test: /\.(js)$/,
+      //   exclude: /node_modules/,
+      //   use: 'babel-loader',
+      // },
       {
         test: /\.(scss)$/,
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
@@ -25,7 +25,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'App for article',
+      title: 'Davlatov frontend project',
       template: path.resolve(__dirname, 'assets', './template.html'),
       filename: 'index.html',
     }),
