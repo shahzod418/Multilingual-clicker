@@ -22,13 +22,27 @@ const handleAccordionToggle = (elements, watched) => () => {
   }
 };
 
+const handleModalOpen = (watched) => () => {
+  watched.uiState.modal.visibility = 'shown';
+};
+
+const handleModalClose = (watched) => () => {
+  watched.uiState.modal.visibility = 'hidden';
+};
+
 export default (i18n, state) => {
   const elements = {
     header: document.querySelector('h1'),
     lngToggle: document.querySelector('[role="group"]'),
-    clickerContainer: document.getElementById('clicker'),
-    clicksButton: document.getElementById('clicksButton'),
-    resetButton: document.getElementById('resetButton'),
+    clickerContainer: document.querySelector('#clicker'),
+    clicksButton: document.querySelector('#clicksButton'),
+    resetButton: document.querySelector('#resetButton'),
+    modal: {
+      element: document.querySelector('#modal'),
+      title: document.querySelector('.modal-title'),
+      body: document.querySelector('.modal-body'),
+      closeButton: document.querySelector('[data-bs-dismiss="modal"]'),
+    },
     forms: {
       fileForm: {
         form: document.querySelector('#file-form'),
@@ -53,6 +67,7 @@ export default (i18n, state) => {
         submitButton: document.querySelector('#add-json'),
       },
     },
+    footerText: document.querySelector('#footer-text'),
   };
 
   const watched = initView(i18n, state, elements);
@@ -67,4 +82,8 @@ export default (i18n, state) => {
     'click',
     handleAccordionToggle(elements, watched),
   );
+
+  elements.forms.accordionForm.exampleButton.addEventListener('click', handleModalOpen(watched));
+
+  elements.modal.closeButton.addEventListener('click', handleModalClose(watched));
 };

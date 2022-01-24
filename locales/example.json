@@ -1,0 +1,25 @@
+{
+  "translation": {
+    "header": "Mehrsprachiger klicker",
+    "buttons": {
+      "counter": {
+        "count_one": "{{count}} anklicken",
+        "count_other": "{{count}} klickt"
+      },
+      "reset": "Zurücksetzen"
+    },
+    "forms": {
+      "label": "Sprache hinzufügen",
+      "placeholder": "Sprache",
+      "file": "Datei auswählen",
+      "languageLabel": "Geben Sie den Namen der Sprache ein",
+      "languagePlaceholder": "",
+      "submit": "Hinzufügen",
+      "code": "Code",
+      "example": "Beispiel",
+      "accordionHeader": "Manuelle Eingabe",
+      "close": "Schließen"
+    },
+    "footer": "erstellt von"
+  }
+}

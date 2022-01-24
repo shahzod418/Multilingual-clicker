@@ -14,6 +14,9 @@ export default async () => {
       accordion: {
         visibility: 'hidden',
       },
+      modal: {
+        visibility: 'hidden',
+      },
     },
     languages: {
       en: 'English',

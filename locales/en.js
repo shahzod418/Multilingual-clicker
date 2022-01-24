@@ -18,6 +18,8 @@ export default {
       code: 'Code',
       example: 'Example',
       accordionHeader: 'Manual input',
+      close: 'Close',
     },
+    footer: 'created by',
   },
 };

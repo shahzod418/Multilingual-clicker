@@ -19,6 +19,8 @@ export default {
       code: 'Код',
       example: 'Пример',
       accordionHeader: 'Ручной ввод',
+      close: 'Закрыть',
     },
+    footer: 'создан',
   },
 };
