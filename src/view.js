@@ -1,7 +1,7 @@
 import onChange from 'on-change';
+import * as bootstrap from 'bootstrap';
 import author from './author.json';
 import example from './example.json';
-import * as bootstrap from 'bootstrap';
 
 const renderButtons = (state, container) => {
   container.innerHTML = '';
@@ -19,23 +19,18 @@ const renderButtons = (state, container) => {
 
 const renderTexts = (i18n, elements) => {
   elements.modal.title.textContent = i18n.t('forms.example');
+  elements.modal.openButton.textContent = i18n.t('forms.example');
   elements.modal.closeButton.textContent = i18n.t('forms.close');
   elements.header.textContent = i18n.t('header');
   elements.resetButton.textContent = i18n.t('buttons.reset');
   elements.forms.fileForm.addLanguageLabel.textContent = i18n.t('forms.label');
   elements.forms.fileForm.fileLabel.textContent = i18n.t('forms.file');
   elements.forms.fileForm.languageLabel.textContent = i18n.t('forms.languageLabel');
-  elements.forms.fileForm.languageInput.setAttribute(
-    'placeholder',
-    i18n.t('forms.placeholder'),
-  );
+  elements.forms.fileForm.languageInput.setAttribute('placeholder', i18n.t('forms.placeholder'));
   elements.forms.fileForm.submitButton.textContent = i18n.t('forms.submit');
   elements.forms.accordionForm.header.textContent = i18n.t('forms.accordionHeader');
   elements.forms.accordionForm.languageLabel.textContent = i18n.t('forms.placeholder');
-  elements.forms.accordionForm.languageLabelLarge.textContent = i18n.t('forms.placeholder');
   elements.forms.accordionForm.codeLabel.textContent = i18n.t('forms.code');
-  elements.forms.accordionForm.codeLabelLarge.textContent = i18n.t('forms.code');
-  elements.forms.accordionForm.exampleButton.textContent = i18n.t('forms.example');
   elements.forms.accordionForm.submitButton.textContent = i18n.t('forms.submit');
 };
 
@@ -94,7 +89,7 @@ const renderModal = (status, elements) => {
   elements.modal.body.innerHTML = '';
 
   const text = document.createElement('pre');
-  text.textContent = JSON.stringify(example,null, '  ');
+  text.textContent = JSON.stringify(example, null, '  ');
   elements.modal.body.append(text);
 
   const modal = new bootstrap.Modal(elements.modal.element);
@@ -115,7 +110,6 @@ const renderModal = (status, elements) => {
 
 const renderError = (error, element) => {
   const invalidFeedback = element.nextElementSibling;
-
   if (invalidFeedback) invalidFeedback.remove();
 
   if (!error) {
@@ -136,8 +130,7 @@ export default (i18n, state, elements) => {
   const mapping = {
     'uiState.accordion.visibility': () =>
       renderAccordion(state.uiState.accordion.visibility, elements),
-    'uiState.modal.visibility': () =>
-        renderModal(state.uiState.modal.visibility, elements),
+    'uiState.modal.visibility': () => renderModal(state.uiState.modal.visibility, elements),
     languages: () => renderButtons(state),
     selectedLanguage: () =>
       i18n.changeLanguage(state.selectedLanguage).then(() => {
@@ -147,12 +140,37 @@ export default (i18n, state, elements) => {
         renderFooter(i18n, elements);
       }),
     clicksCount: () => renderClicksCount(i18n, state, elements.clicksButton),
-    'forms.fileForm.status': () => renderForm(state.forms.fileForm.status, elements.forms.fileForm),
-    'forms.fileForm.valid': () => elements.forms.fileForm.submitButton.disabled = !state.forms.fileForm.valid,
-    'forms.fileForm.fields.language.error': () => renderError(state.forms.fileForm.fields.language.error, elements.forms.fileForm.languageInput),
-    'forms.accordionForm.status': () => renderForm(state.forms.accordionForm.status, elements.forms.accordionForm),
-    'forms.accordionForm.valid': () => elements.forms.accordionForm.submitButton.disabled = !state.forms.accordionForm.valid,
-    'forms.accordionForm.error': () => renderError(state.forms.accordionForm.error, elements.forms.accordionForm),
+    'forms.valid': () => {
+      elements.forms.fileForm.submitButton.disabled = !state.forms.valid;
+      elements.forms.accordionForm.submitButton.disabled = !state.forms.valid;
+    },
+    'forms.status': () => {
+      renderForm(state.forms.fileForm.status, elements.forms.fileForm);
+      renderForm(state.forms.accordionForm.status, elements.forms.accordionForm);
+    },
+    'forms.fileForm.fields.file.error': () =>
+      renderError(state.forms.fileForm.fields.file.error, elements.forms.fileForm.fileInput),
+    'forms.fileForm.fields.language.error': () =>
+      renderError(
+        state.forms.fileForm.fields.language.error,
+        elements.forms.fileForm.languageInput,
+      ),
+    'forms.accordionForm.fields.language.error': () =>
+      renderError(
+        state.forms.accordionForm.fields.language.error,
+        elements.forms.accordionForm.languageInput,
+      ),
+    'forms.accordionForm.fields.code.error': () =>
+      renderError(
+        state.forms.accordionForm.fields.code.error,
+        elements.forms.accordionForm.codeInput,
+      ),
+
+    'forms.accordionForm.fields.json.error': () =>
+      renderError(
+        state.forms.accordionForm.fields.json.error,
+        elements.forms.accordionForm.jsonInput,
+      ),
   };
 
   const watchedState = onChange(state, (path) => {

@@ -1,13 +1,33 @@
-import initView from './view';
 import * as yup from 'yup';
+import has from 'lodash/has.js';
+import initView from './view';
+
+const readFileAsync = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+
+    reader.onerror = reject;
+
+    reader.readAsText(file);
+  });
+};
 
 const schema = {
-  file: yup.mixed()
-      .test('fileSize', 'File Size is too large', (file) => file.size <= 2000)
-      .test('fileType', 'Unsupported File Format', (file) => file.type === 'json')
-      .required(),
+  file: yup
+    .mixed()
+    .test('fileSize', 'File Size is too large', (file) => file.size <= 2000)
+    .test('fileType', 'Unsupported File Format', (file) => file.type === 'application/json')
+    .test('JSON', 'Not JSON', (file) => readFileAsync(file).then((data) => JSON.parse(data)))
+    .required(),
   input: yup.string().required().matches(/\D/g, 'Latin letters only'),
-  json: yup.string().required().test('JSON', 'Not JSON', (string) => JSON.parse(string)),
+  json: yup
+    .string()
+    .required()
+    .test('JSON', 'Not JSON', (string) => JSON.parse(string)),
 };
 
 const validate = (type, value) => {
@@ -18,6 +38,7 @@ const validate = (type, value) => {
     return error.message;
   }
 };
+
 const handleSwitchLanguage = (state) => (evt) => {
   const { lng } = evt.target.dataset;
 
@@ -48,21 +69,27 @@ const handleModalClose = (watched) => () => {
   watched.uiState.modal.visibility = 'hidden';
 };
 
-const handleInput = (watched) => ({ target }) => {
-  const form = target.dataset.form;
-  const field = target.dataset.target;
-  const type = target.dataset.validate;
-  const error = validate(type, target.value);
+const handleInputValid =
+  (watched) =>
+  ({ target }) => {
+    const { form } = target.dataset;
+    const field = target.dataset.field;
+    const type = target.dataset.validate;
+    let error;
+    if (target.files) {
+      error = validate(type, target.files[0])
+    } else {
+      error = validate(type, target.value);
+    }
+    if (error) {
+      watched.forms[form].fields[field].error = error;
+      watched.forms.valid = false;
+      return;
+    }
 
-  if (error) {
-    watched.forms[form].fields[field].error = error;
-    watched.forms[form].valid = false;
-    return;
-  }
-
-  watched.forms[form].fields[field].error = null;
-  watched.forms[form].valid = true;
-};
+    watched.forms[form].fields[field].error = null;
+    watched.forms.valid = true;
+  };
 
 export default (i18n, state) => {
   const elements = {
@@ -75,29 +102,28 @@ export default (i18n, state) => {
       element: document.querySelector('#modal'),
       title: document.querySelector('.modal-title'),
       body: document.querySelector('.modal-body'),
+      openButton: document.querySelector('#example'),
       closeButton: document.querySelector('[data-bs-dismiss="modal"]'),
     },
     forms: {
       fileForm: {
         form: document.querySelector('#file-form'),
         addLanguageLabel: document.querySelector('label[for="add-language"]'),
+        fileInput: document.querySelector('#file-form-input'),
         fileLabel: document.querySelector('label[for="file-form-input"]'),
-        languageLabel: document.querySelector('label[for="file-form-language"]'),
         languageInput: document.querySelector('#file-form-language'),
+        languageLabel: document.querySelector('label[for="file-form-language"]'),
         submitButton: document.querySelector('#add-language'),
       },
       accordionForm: {
         form: document.querySelector('#accordion-form'),
         header: document.querySelector('button[data-bs-toggle="collapse"]'),
         languageLabel: document.querySelector('label[for="input-language"]'),
-        languageLabelLarge: document.querySelector('label[for="input-language-xxl"]'),
         languageInput: document.querySelector('#input-language'),
-        languageInputLarge: document.querySelector('#input-language-xxl'),
         codeLabel: document.querySelector('label[for="input-code"]'),
-        codeLabelLarge: document.querySelector('label[for="input-code-xxl"]'),
         codeInput: document.querySelector('#input-code'),
-        codeInputLarge: document.querySelector('#input-code-xxl'),
-        exampleButton: document.querySelector('#example'),
+        jsonLabel: document.querySelector('label[for="input-json"]'),
+        jsonInput: document.querySelector('#input-json'),
         submitButton: document.querySelector('#add-json'),
       },
     },
@@ -112,14 +138,43 @@ export default (i18n, state) => {
 
   elements.resetButton.addEventListener('click', resetClicksCount(watched));
 
+  elements.forms.fileForm.fileInput.addEventListener('change', handleInputValid(watched));
+
   elements.forms.accordionForm.header.addEventListener(
     'click',
     handleAccordionToggle(elements, watched),
   );
 
-  elements.forms.accordionForm.exampleButton.addEventListener('click', handleModalOpen(watched));
+  elements.modal.openButton.addEventListener('click', handleModalOpen(watched));
 
   elements.modal.closeButton.addEventListener('click', handleModalClose(watched));
 
-  elements.forms.fileForm.languageInput.addEventListener('input', handleInput(watched));
+  const textInputs = document.querySelectorAll('input[type="text"]');
+  textInputs.forEach((input) => input.addEventListener('input', handleInputValid(watched)));
+
+  elements.forms.accordionForm.jsonInput.addEventListener('input', handleInputValid(watched));
+
+  elements.forms.fileForm.form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    Object.entries(elements.forms.fileForm).forEach(([, element]) => {
+      if (has(element.attributes, 'data-form')) {
+        handleInputValid(watched)({ target: element });
+      }
+    });
+
+    event.target.reset();
+  });
+
+  elements.forms.accordionForm.form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    Object.entries(elements.forms.accordionForm).forEach(([, element]) => {
+      if (has(element.attributes, 'data-form')) {
+        handleInputValid(watched)({ target: element });
+      }
+    });
+
+    event.target.reset();
+  });
 };

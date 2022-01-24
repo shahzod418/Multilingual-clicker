@@ -25,9 +25,9 @@ export default async () => {
     selectedLanguage: i18n.language,
     clicksCount: 0,
     forms: {
+      valid: true,
+      status: 'filling',
       fileForm: {
-        valid: true,
-        status: 'filling',
         fields: {
           file: {
             error: null,
@@ -40,8 +40,6 @@ export default async () => {
         },
       },
       accordionForm: {
-        valid: true,
-        status: 'filling',
         fields: {
           language: {
             error: null,
