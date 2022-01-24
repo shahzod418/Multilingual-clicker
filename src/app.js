@@ -19,25 +19,61 @@ const readFileAsync = (file) => {
 const schema = {
   file: yup
     .mixed()
-    .test('fileSize', 'File Size is too large', (file) => file.size <= 2000)
+      .required()
+    .test('fileSize', 'File Size is too large', (file) => file.size <= 200000)
     .test('fileType', 'Unsupported File Format', (file) => file.type === 'application/json')
-    .test('JSON', 'Not JSON', (file) => readFileAsync(file).then((data) => JSON.parse(data)))
-    .required(),
-  input: yup.string().required().matches(/\D/g, 'Latin letters only'),
+    .test('JSON', 'Invalid JSON format', (file) => readFileAsync(file).then((data) => {
+      try {
+        JSON.parse(data)
+        return true;
+      } catch (error) {
+        return false;
+      }
+    })),
+  input: yup.string().required().matches(/^[a-zA-Z]+$/g, 'Latin letters only without space'),
   json: yup
     .string()
     .required()
-    .test('JSON', 'Not JSON', (string) => JSON.parse(string)),
+    .test('JSON', 'Invalid JSON format', (string) => {
+      try {
+        JSON.parse(string)
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }),
 };
 
-const validate = (type, value) => {
+const validate = async (type, value) => {
   try {
-    schema[type].validateSync(value);
+    await schema[type].validate(value);
     return null;
   } catch (error) {
     return error.message;
   }
 };
+
+const handleInputValid =
+    (watched) =>
+        async ({ target }) => {
+          const { form } = target.dataset;
+          const field = target.dataset.field;
+          const type = target.dataset.validate;
+          let error;
+          if (target.files) {
+            error = await validate(type, target.files[0])
+          } else {
+            error = await validate(type, target.value);
+          }
+          if (error) {
+            watched.forms[form].fields[field].error = error;
+            watched.forms.valid = false;
+            return;
+          }
+
+          watched.forms[form].fields[field].error = null;
+          watched.forms.valid = true;
+        };
 
 const handleSwitchLanguage = (state) => (evt) => {
   const { lng } = evt.target.dataset;
@@ -68,28 +104,6 @@ const handleModalOpen = (watched) => () => {
 const handleModalClose = (watched) => () => {
   watched.uiState.modal.visibility = 'hidden';
 };
-
-const handleInputValid =
-  (watched) =>
-  ({ target }) => {
-    const { form } = target.dataset;
-    const field = target.dataset.field;
-    const type = target.dataset.validate;
-    let error;
-    if (target.files) {
-      error = validate(type, target.files[0])
-    } else {
-      error = validate(type, target.value);
-    }
-    if (error) {
-      watched.forms[form].fields[field].error = error;
-      watched.forms.valid = false;
-      return;
-    }
-
-    watched.forms[form].fields[field].error = null;
-    watched.forms.valid = true;
-  };
 
 export default (i18n, state) => {
   const elements = {
