@@ -27,21 +27,34 @@ export default async () => {
     forms: {
       fileForm: {
         valid: true,
-        error: null,
         status: 'filling',
         fields: {
-          name: '',
-          data: '',
+          file: {
+            error: null,
+            value: '',
+          },
+          language: {
+            error: null,
+            value: '',
+          },
         },
       },
       accordionForm: {
         valid: true,
-        error: null,
         status: 'filling',
         fields: {
-          language: '',
-          code: '',
-          json: '',
+          language: {
+            error: null,
+            value: '',
+          },
+          code: {
+            error: null,
+            value: '',
+          },
+          json: {
+            error: null,
+            value: '',
+          },
         },
       },
     },

@@ -1,5 +1,23 @@
 import initView from './view';
+import * as yup from 'yup';
 
+const schema = {
+  file: yup.mixed()
+      .test('fileSize', 'File Size is too large', (file) => file.size <= 2000)
+      .test('fileType', 'Unsupported File Format', (file) => file.type === 'json')
+      .required(),
+  input: yup.string().required().matches(/\D/g, 'Latin letters only'),
+  json: yup.string().required().test('JSON', 'Not JSON', (string) => JSON.parse(string)),
+};
+
+const validate = (type, value) => {
+  try {
+    schema[type].validateSync(value);
+    return null;
+  } catch (error) {
+    return error.message;
+  }
+};
 const handleSwitchLanguage = (state) => (evt) => {
   const { lng } = evt.target.dataset;
 
@@ -28,6 +46,22 @@ const handleModalOpen = (watched) => () => {
 
 const handleModalClose = (watched) => () => {
   watched.uiState.modal.visibility = 'hidden';
+};
+
+const handleInput = (watched) => ({ target }) => {
+  const form = target.dataset.form;
+  const field = target.dataset.target;
+  const type = target.dataset.validate;
+  const error = validate(type, target.value);
+
+  if (error) {
+    watched.forms[form].fields[field].error = error;
+    watched.forms[form].valid = false;
+    return;
+  }
+
+  watched.forms[form].fields[field].error = null;
+  watched.forms[form].valid = true;
 };
 
 export default (i18n, state) => {
@@ -86,4 +120,6 @@ export default (i18n, state) => {
   elements.forms.accordionForm.exampleButton.addEventListener('click', handleModalOpen(watched));
 
   elements.modal.closeButton.addEventListener('click', handleModalClose(watched));
+
+  elements.forms.fileForm.languageInput.addEventListener('input', handleInput(watched));
 };

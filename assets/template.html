@@ -35,13 +35,13 @@
                         </div>
                         <div class="col-auto align-self-center mb-1">
                             <label for="file-form-input" class="btn btn-success"></label>
-                            <input type="file" id="file-form-input" name="file" class="form-control btn btn-light" style="display: none;">
+                            <input type="file" id="file-form-input" name="file" class="form-control btn btn-light" data-form="fileForm" data-target="file" data-validate="file" style="display: none;">
                         </div>
                         <div class="col-auto align-self-center mb-1">
                             <label for="file-form-language" class="col-form-label text-center"></label>
                         </div>
                         <div class="col-auto align-self-center mb-3">
-                            <input type="text" id="file-form-language" name="language" placeholder="Language" class="form-control btn-light">
+                            <input type="text" id="file-form-language" name="language" placeholder="Language" class="form-control btn-light" data-form="fileForm" data-target="language" data-validate="input">
                         </div>
                         <div class="col-auto align-self-center mb-1">
                             <button type="submit" id="add-language" class="btn btn-success"></button>
@@ -58,27 +58,27 @@
                                         <div class="col-auto">
                                             <div class="input-group d-none d-xxl-flex">
                                                 <label for="input-language-xxl" class="input-group-text text-black mt-1"></label>
-                                                <input type="text" class="form-control mt-1" id="input-language-xxl" name="language-xxl">
+                                                <input type="text" class="form-control mt-1" id="input-language-xxl" name="language-xxl" data-form="accordionForm" data-target="language" data-validate="input">
                                             </div>
                                             <div class="d-xxl-none mb-3">
                                                 <label for="input-language" class="form-label mt-1"></label>
-                                                <input type="text" class="form-control mt-1" id="input-language" name="language">
+                                                <input type="text" class="form-control mt-1" id="input-language" name="language" data-form="accordionForm" data-target="language" data-validate="input">
                                             </div>
                                         </div>
                                         <div class="col-auto">
                                             <div class="input-group d-none d-xxl-flex">
                                                 <label for="input-code-xxl" class="input-group-text text-black mt-1"></label>
-                                                <input type="text" class="form-control mt-1" id="input-code-xxl" maxlength="2" name="code-xxl">
+                                                <input type="text" class="form-control mt-1" id="input-code-xxl" maxlength="2" name="code-xxl" data-form="accordionForm" data-target="code" data-validate="input">
                                             </div>
                                             <div class="d-xxl-none mb-3">
                                                 <label for="input-code" class="form-label mt-1"></label>
-                                                <input type="text" class="form-control mt-1" id="input-code" maxlength="2" name="code">
+                                                <input type="text" class="form-control mt-1" id="input-code" maxlength="2" name="code" data-form="accordionForm" data-target="code" data-validate="input">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="accordion-body bg-dark">
-                                    <textarea id="input-json" class="form-control" rows="10" name="json"></textarea>
+                                    <textarea id="input-json" class="form-control" rows="10" name="json" data-form="accordionForm" data-target="json" data-validate="json"></textarea>
                                 </div>
                                 <div class="accordion-body bg-dark">
                                     <button type="button" id="example" class="form-control btn btn-warning mb-3"></button>

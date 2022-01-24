@@ -13,7 +13,6 @@ export default {
       placeholder: 'Language',
       file: 'Choose file',
       languageLabel: 'Enter the name of the language',
-      languagePlaceholder: 'Sprache',
       submit: 'Add',
       code: 'Code',
       example: 'Example',

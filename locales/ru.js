@@ -14,7 +14,6 @@ export default {
       placeholder: 'Язык',
       file: 'Выберите файл',
       languageLabel: 'Введите название языка',
-      languagePlaceholder: 'Язык',
       submit: 'Добавить',
       code: 'Код',
       example: 'Пример',

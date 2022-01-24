@@ -1,6 +1,6 @@
 import onChange from 'on-change';
-import author from '../locales/author';
-import example from '../locales/example.json';
+import author from './author.json';
+import example from './example.json';
 import * as bootstrap from 'bootstrap';
 
 const renderButtons = (state, container) => {
@@ -27,7 +27,7 @@ const renderTexts = (i18n, elements) => {
   elements.forms.fileForm.languageLabel.textContent = i18n.t('forms.languageLabel');
   elements.forms.fileForm.languageInput.setAttribute(
     'placeholder',
-    i18n.t('forms.languagePlaceholder'),
+    i18n.t('forms.placeholder'),
   );
   elements.forms.fileForm.submitButton.textContent = i18n.t('forms.submit');
   elements.forms.accordionForm.header.textContent = i18n.t('forms.accordionHeader');
@@ -56,7 +56,24 @@ const renderClicksCount = (i18n, state, clicksButton) => {
   clicksButton.textContent = i18n.t('buttons.counter.count', { count: state.clicksCount });
 };
 
-const renderForm = () => {};
+const renderForm = (status, element) => {
+  switch (status) {
+    case 'filling':
+      element.submitButton.removeAttribute('disabled');
+      break;
+
+    case 'failed':
+      element.submitButton.removeAttribute('disabled');
+      break;
+
+    case 'loading':
+      element.submitButton.setAttribute('disabled', true);
+      break;
+
+    default:
+      throw Error(`Unknown form status: ${status}`);
+  }
+};
 
 const renderAccordion = (status, elements) => {
   switch (status) {
@@ -96,6 +113,25 @@ const renderModal = (status, elements) => {
   }
 };
 
+const renderError = (error, element) => {
+  const invalidFeedback = element.nextElementSibling;
+
+  if (invalidFeedback) invalidFeedback.remove();
+
+  if (!error) {
+    element.classList.remove('is-invalid');
+    return;
+  }
+
+  element.classList.add('is-invalid');
+
+  const feedback = document.createElement('div');
+  feedback.classList.add('invalid-feedback');
+  feedback.textContent = error;
+
+  element.after(feedback);
+};
+
 export default (i18n, state, elements) => {
   const mapping = {
     'uiState.accordion.visibility': () =>
@@ -111,8 +147,12 @@ export default (i18n, state, elements) => {
         renderFooter(i18n, elements);
       }),
     clicksCount: () => renderClicksCount(i18n, state, elements.clicksButton),
-    'forms.fileForm.status': () => renderForm(state.forms.fileForm.status, elements),
-    'forms.accordionForm.status': () => {},
+    'forms.fileForm.status': () => renderForm(state.forms.fileForm.status, elements.forms.fileForm),
+    'forms.fileForm.valid': () => elements.forms.fileForm.submitButton.disabled = !state.forms.fileForm.valid,
+    'forms.fileForm.fields.language.error': () => renderError(state.forms.fileForm.fields.language.error, elements.forms.fileForm.languageInput),
+    'forms.accordionForm.status': () => renderForm(state.forms.accordionForm.status, elements.forms.accordionForm),
+    'forms.accordionForm.valid': () => elements.forms.accordionForm.submitButton.disabled = !state.forms.accordionForm.valid,
+    'forms.accordionForm.error': () => renderError(state.forms.accordionForm.error, elements.forms.accordionForm),
   };
 
   const watchedState = onChange(state, (path) => {
