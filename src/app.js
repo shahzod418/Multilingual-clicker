@@ -1,5 +1,6 @@
 import * as yup from 'yup';
-import has from 'lodash/has.js';
+import has from 'lodash/has';
+import isUndefined from 'lodash/isUndefined';
 import initView from './view';
 
 const readFileAsync = (file) => {
@@ -19,24 +20,35 @@ const readFileAsync = (file) => {
 const schema = {
   file: yup
     .mixed()
-      .required()
-    .test('fileSize', 'File Size is too large', (file) => file.size <= 200000)
-    .test('fileType', 'Unsupported File Format', (file) => file.type === 'application/json')
-    .test('JSON', 'Invalid JSON format', (file) => readFileAsync(file).then((data) => {
-      try {
-        JSON.parse(data)
-        return true;
-      } catch (error) {
-        return false;
-      }
-    })),
-  input: yup.string().required().matches(/^[a-zA-Z]+$/g, 'Latin letters only without space'),
+      .test('Empty', 'Add file', (file) => !isUndefined(file))
+    .test('fileSize', 'File Size is too large', (file) => {
+      if (isUndefined(file)) return true;
+      return file.size <= 2000;
+    })
+    .test('fileType', 'Unsupported File Format', (file) => {
+      if (isUndefined(file)) return true;
+      return file.type === 'application/json';
+    })
+    .test('JSON', 'Invalid JSON format', (file) =>
+      readFileAsync(file).then((data) => {
+        try {
+          JSON.parse(data);
+          return true;
+        } catch (error) {
+          return false;
+        }
+      }),
+    ),
+  input: yup
+    .string()
+    .required()
+    .matches(/^[a-zA-Z]+$/g, 'Latin letters only without space'),
   json: yup
     .string()
     .required()
     .test('JSON', 'Invalid JSON format', (string) => {
       try {
-        JSON.parse(string)
+        JSON.parse(string);
         return true;
       } catch (error) {
         return false;
@@ -54,26 +66,29 @@ const validate = async (type, value) => {
 };
 
 const handleInputValid =
-    (watched) =>
-        async ({ target }) => {
-          const { form } = target.dataset;
-          const field = target.dataset.field;
-          const type = target.dataset.validate;
-          let error;
-          if (target.files) {
-            error = await validate(type, target.files[0])
-          } else {
-            error = await validate(type, target.value);
-          }
-          if (error) {
-            watched.forms[form].fields[field].error = error;
-            watched.forms.valid = false;
-            return;
-          }
+  (watched) =>
+  async ({ target }) => {
+    const { form } = target.dataset;
+    const { field } = target.dataset;
+    const type = target.dataset.validate;
+    let error;
+    if (target.files) {
+      error = await validate(type, target.files[0]);
+    } else {
+      console.log(target.value)
+      error = await validate(type, target.value);
+    }
+    if (error) {
+      watched.forms[form].fields[field].error = error;
+      watched.forms.valid = false;
+      return;
+    }
 
-          watched.forms[form].fields[field].error = null;
-          watched.forms.valid = true;
-        };
+    watched.forms[form].fields[field].error = null;
+    watched.forms.valid = true;
+
+    target.reset();
+  };
 
 const handleSwitchLanguage = (state) => (evt) => {
   const { lng } = evt.target.dataset;

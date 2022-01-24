@@ -120,7 +120,7 @@ const renderError = (error, element) => {
   element.classList.add('is-invalid');
 
   const feedback = document.createElement('div');
-  feedback.classList.add('invalid-feedback');
+  feedback.classList.add('invalid-feedback', 'text-center');
   feedback.textContent = error;
 
   element.after(feedback);
