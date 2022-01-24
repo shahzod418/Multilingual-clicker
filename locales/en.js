@@ -1,10 +1,6 @@
 export default {
   translation: {
     header: 'Multilingual clicker',
-    languages: {
-      en: 'English',
-      ru: 'Русский',
-    },
     buttons: {
       counter: {
         count_one: '{{count}} click',
@@ -17,9 +13,9 @@ export default {
       placeholder: 'Language',
       file: 'Choose file',
       languageLabel: 'Enter the name of the language',
-      languagePlaceholder: 'Language',
+      languagePlaceholder: 'Sprache',
       submit: 'Add',
-      code: 'EN',
+      code: 'Code',
       example: 'Example',
       accordionHeader: 'Manual input',
     },

@@ -3,13 +3,13 @@ import onChange from 'on-change';
 const renderButtons = (state, container) => {
   container.innerHTML = '';
 
-  Object.entries(state.languages).forEach(([code, lng]) => {
+  Object.entries(state.languages).forEach(([code, language]) => {
     const btn = document.createElement('button');
     btn.setAttribute('type', 'button');
     btn.setAttribute('data-lng', code);
     const className = state.selectedLanguage === code ? 'btn-primary' : 'btn-outline-primary';
     btn.classList.add('btn', 'mb-3', className);
-    btn.textContent = lng;
+    btn.textContent = language;
     container.append(btn);
   });
 };
@@ -63,6 +63,7 @@ export default (i18n, state, elements) => {
     selectedLanguage: () =>
       i18n.changeLanguage(state.selectedLanguage).then(() => {
         renderButtons(state, elements.lngToggle);
+        renderClicksCount(i18n, state, elements.clicksButton);
         renderTexts(i18n, elements);
       }),
     clicksCount: () => renderClicksCount(i18n, state, elements.clicksButton),

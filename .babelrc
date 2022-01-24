@@ -1,4 +1,3 @@
 {
-  "presets": ["@babel/preset-env"],
-  "plugins": ["@babel/plugin-proposal-class-properties"]
+  "plugins": ["i18next-extract", "@babel/plugin-proposal-class-properties"]
 }

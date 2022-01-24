@@ -6,8 +6,16 @@ const handleSwitchLanguage = (state) => (evt) => {
   state.selectedLanguage = lng;
 };
 
-const handleAccordionToogle = (accordion, watched) => () => {
-  if (accordion.classList.contains('show')) {
+const handleClicksCount = (state) => () => {
+  state.clicksCount += 1;
+};
+
+const resetClicksCount = (state) => () => {
+  state.clicksCount = 0;
+};
+
+const handleAccordionToggle = (elements, watched) => () => {
+  if (elements.forms.accordionForm.form.classList.contains('show')) {
     watched.uiState.accordion.visibility = 'hidden';
   } else {
     watched.uiState.accordion.visibility = 'shown';
@@ -49,10 +57,14 @@ export default (i18n, state) => {
 
   const watched = initView(i18n, state, elements);
 
+  elements.lngToggle.addEventListener('click', handleSwitchLanguage(watched));
+
+  elements.clicksButton.addEventListener('click', handleClicksCount(watched));
+
+  elements.resetButton.addEventListener('click', resetClicksCount(watched));
+
   elements.forms.accordionForm.header.addEventListener(
     'click',
-    handleAccordionToogle(elements.forms.accordionForm.form, watched),
+    handleAccordionToggle(elements, watched),
   );
-
-  elements.lngToggle.addEventListener('click', handleSwitchLanguage(watched));
 };

@@ -1,10 +1,6 @@
 export default {
   translation: {
     header: 'Многоязычный кликер',
-    languages: {
-      en: 'English',
-      ru: 'Русский',
-    },
     buttons: {
       counter: {
         count_one: '{{count}} клик',
@@ -20,7 +16,7 @@ export default {
       languageLabel: 'Введите название языка',
       languagePlaceholder: 'Язык',
       submit: 'Добавить',
-      code: 'RU',
+      code: 'Код',
       example: 'Пример',
       accordionHeader: 'Ручной ввод',
     },
