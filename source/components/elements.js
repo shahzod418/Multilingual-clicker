@@ -1,0 +1,37 @@
+export default {
+  header: document.querySelector('h1'),
+  lngToggle: document.querySelector('[role="group"]'),
+  clickerContainer: document.querySelector('#clicker'),
+  clicksButton: document.querySelector('#clicksButton'),
+  resetButton: document.querySelector('#resetButton'),
+  modal: {
+    element: document.querySelector('#modal'),
+    title: document.querySelector('.modal-title'),
+    body: document.querySelector('.modal-body'),
+    openButton: document.querySelector('#example'),
+    closeButton: document.querySelector('[data-bs-dismiss="modal"]'),
+  },
+  forms: {
+    fileForm: {
+      form: document.querySelector('#file-form'),
+      addLanguageLabel: document.querySelector('label[for="add-language"]'),
+      fileInput: document.querySelector('#file-form-input'),
+      fileLabel: document.querySelector('label[for="file-form-input"]'),
+      languageInput: document.querySelector('#file-form-language'),
+      languageLabel: document.querySelector('label[for="file-form-language"]'),
+      submitButton: document.querySelector('#add-language'),
+    },
+    accordionForm: {
+      form: document.querySelector('#accordion-form'),
+      header: document.querySelector('button[data-bs-toggle="collapse"]'),
+      languageLabel: document.querySelector('label[for="input-language"]'),
+      languageInput: document.querySelector('#input-language'),
+      codeLabel: document.querySelector('label[for="input-code"]'),
+      codeInput: document.querySelector('#input-code'),
+      jsonLabel: document.querySelector('label[for="input-json"]'),
+      jsonInput: document.querySelector('#input-json'),
+      submitButton: document.querySelector('#add-json'),
+    },
+  },
+  footerText: document.querySelector('#footer-text'),
+};
