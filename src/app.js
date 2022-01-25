@@ -226,8 +226,11 @@ export default (i18n, state) => {
 
   elements.modal.closeButton.addEventListener('click', handleModalClose(watched));
 
-  const textInputs = document.querySelectorAll('input[type="text"]');
-  textInputs.forEach((input) => input.addEventListener('input', handleInputValid(watched)));
+  elements.forms.fileForm.languageInput.addEventListener('input', handleInputValid(watched));
+
+  elements.forms.accordionForm.languageInput.addEventListener('input', handleInputValid(watched));
+
+  elements.forms.accordionForm.codeInput.addEventListener('input', handleInputValid(watched));
 
   elements.forms.accordionForm.jsonInput.addEventListener('input', handleInputValid(watched));
 
