@@ -17,9 +17,6 @@ export default async () => {
 
   const state = {
     uiState: {
-      accordion: {
-        visibility: 'hidden',
-      },
       modal: {
         visibility: 'hidden',
       },

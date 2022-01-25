@@ -1,6 +1,5 @@
 import onChange from 'on-change';
 
-import renderAccordion from './renders/renderAccordion';
 import renderModal from './renders/renderModal';
 import renderForm from './renders/renderForm';
 import renderError from './renders/renderError';
@@ -11,8 +10,6 @@ import renderFooter from './renders/renderFooter';
 
 export default (i18n, state, elements) => {
   const mapping = {
-    'uiState.accordion.visibility': () =>
-      renderAccordion(state.uiState.accordion.visibility, elements),
     'uiState.modal.visibility': () => renderModal(state.uiState.modal.visibility, elements),
     'forms.valid': () => {
       elements.forms.fileForm.submitButton.disabled = !state.forms.valid;
