@@ -1,4 +1,4 @@
-import * as bootstrap from 'bootstrap';
+import { Modal } from 'bootstrap';
 import example from '../components/example.json';
 
 export default (status, elements) => {
@@ -8,7 +8,7 @@ export default (status, elements) => {
   text.textContent = JSON.stringify(example, null, '  ');
   elements.modal.body.append(text);
 
-  const modal = new bootstrap.Modal(elements.modal.element);
+  const modal = new Modal(elements.modal.element);
 
   switch (status) {
     case 'hidden':
