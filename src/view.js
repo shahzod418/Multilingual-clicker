@@ -48,7 +48,7 @@ const renderFooter = (i18n, elements) => {
 };
 
 const renderClicksCount = (i18n, state, clicksButton) => {
-  clicksButton.textContent = i18n.t('buttons.counter.count', { count: state.clicksCount });
+  clicksButton.textContent = i18n.t('buttons.counter.count_interval', { postProcess: 'interval', count: state.clicksCount });
 };
 
 const renderForm = (status, element) => {
@@ -145,8 +145,8 @@ export default (i18n, state, elements) => {
       elements.forms.accordionForm.submitButton.disabled = !state.forms.valid;
     },
     'forms.status': () => {
-      renderForm(state.forms.fileForm.status, elements.forms.fileForm);
-      renderForm(state.forms.accordionForm.status, elements.forms.accordionForm);
+      renderForm(state.forms.status, elements.forms.fileForm);
+      renderForm(state.forms.status, elements.forms.accordionForm);
     },
     'forms.fileForm.fields.file.error': () =>
       renderError(state.forms.fileForm.fields.file.error, elements.forms.fileForm.fileInput),

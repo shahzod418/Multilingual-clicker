@@ -3,8 +3,7 @@ export default {
     header: 'Multilingual clicker',
     buttons: {
       counter: {
-        count_one: '{{count}} click',
-        count_other: '{{count}} clicks',
+        count_interval: '(0-1)[{{count}} click];(2-inf)[{{count}} clicks];',
       },
       reset: 'Reset',
     },

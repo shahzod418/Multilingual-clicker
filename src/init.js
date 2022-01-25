@@ -1,12 +1,17 @@
 import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import resources from './resources';
+import intervalPlural from 'i18next-intervalplural-postprocessor';
+import en from '../locales/en';
+import ru from '../locales/ru';
 
 export default async () => {
   const i18n = i18next.createInstance();
-  await i18n.use(LanguageDetector).init({
+  await i18n.use(LanguageDetector).use(intervalPlural).init({
     debug: false,
-    resources,
+    resources: {
+      en,
+      ru
+    },
   });
 
   const state = {
@@ -31,11 +36,9 @@ export default async () => {
         fields: {
           file: {
             error: null,
-            value: '',
           },
           language: {
             error: null,
-            value: '',
           },
         },
       },
@@ -43,15 +46,12 @@ export default async () => {
         fields: {
           language: {
             error: null,
-            value: '',
           },
           code: {
             error: null,
-            value: '',
           },
           json: {
             error: null,
-            value: '',
           },
         },
       },

@@ -1,6 +1,8 @@
 import * as yup from 'yup';
 import has from 'lodash/has';
+import isNull from "lodash/isNull";
 import isUndefined from 'lodash/isUndefined';
+import isEmpty from "lodash/isEmpty";
 import initView from './view';
 
 const readFileAsync = (file) => {
@@ -71,23 +73,23 @@ const handleInputValid =
     const { form } = target.dataset;
     const { field } = target.dataset;
     const type = target.dataset.validate;
-    let error;
+
     if (target.files) {
-      error = await validate(type, target.files[0]);
+      watched.forms.errors = await validate(type, target.files[0]);
     } else {
-      console.log(target.value)
-      error = await validate(type, target.value);
+      watched.forms.errors = await validate(type, target.value);
     }
-    if (error) {
-      watched.forms[form].fields[field].error = error;
+
+    if (watched.forms.errors) {
+      watched.forms[form].fields[field].error = watched.forms.errors;
       watched.forms.valid = false;
-      return;
+      return watched.forms.errors;
     }
 
     watched.forms[form].fields[field].error = null;
     watched.forms.valid = true;
 
-    target.reset();
+    return null;
   };
 
 const handleSwitchLanguage = (state) => (evt) => {
@@ -96,11 +98,11 @@ const handleSwitchLanguage = (state) => (evt) => {
   state.selectedLanguage = lng;
 };
 
-const handleClicksCount = (state) => () => {
+const handleAddClicksCount = (state) => () => {
   state.clicksCount += 1;
 };
 
-const resetClicksCount = (state) => () => {
+const handleResetClicksCount = (state) => () => {
   state.clicksCount = 0;
 };
 
@@ -163,9 +165,9 @@ export default (i18n, state) => {
 
   elements.lngToggle.addEventListener('click', handleSwitchLanguage(watched));
 
-  elements.clicksButton.addEventListener('click', handleClicksCount(watched));
+  elements.clicksButton.addEventListener('click', handleAddClicksCount(watched));
 
-  elements.resetButton.addEventListener('click', resetClicksCount(watched));
+  elements.resetButton.addEventListener('click', handleResetClicksCount(watched));
 
   elements.forms.fileForm.fileInput.addEventListener('change', handleInputValid(watched));
 
@@ -183,27 +185,51 @@ export default (i18n, state) => {
 
   elements.forms.accordionForm.jsonInput.addEventListener('input', handleInputValid(watched));
 
-  elements.forms.fileForm.form.addEventListener('submit', (event) => {
+  const handleAddLanguage = (elements, watched) => async (event) => {
     event.preventDefault();
+    const language = {};
+    const errors = [];
 
-    Object.entries(elements.forms.fileForm).forEach(([, element]) => {
+    await Promise.all(Object.entries(elements).map(async ([, element]) => {
       if (has(element.attributes, 'data-form')) {
-        handleInputValid(watched)({ target: element });
+        const error = await (handleInputValid(watched)({ target: element }));
+        if (!isNull(error)) errors.push(error);
       }
-    });
+    }));
 
-    event.target.reset();
-  });
+    if (!isEmpty(errors)) return;
 
-  elements.forms.accordionForm.form.addEventListener('submit', (event) => {
-    event.preventDefault();
+    const formData = new FormData(event.target);
 
-    Object.entries(elements.forms.accordionForm).forEach(([, element]) => {
-      if (has(element.attributes, 'data-form')) {
-        handleInputValid(watched)({ target: element });
-      }
-    });
+    if (formData.has('file')) {
+      const file = formData.get('file');
+      const code = file.name.match(/[^\.json]/gm).join('');
+      const fileData = await readFileAsync(file);
+      language.code = code;
+      language.value = JSON.parse(fileData);
+    } else {
+      const json = formData.get('json');
+      language.code = formData.get('code');
+      language.value = JSON.parse(json);
+    }
 
-    event.target.reset();
-  });
+    language.name = formData.get('language');
+
+    try {
+      watched.forms.status = 'loading';
+      await i18n.addResourceBundle(language.code, 'translation', language.value);
+      await i18n.reloadResources();
+      watched.forms.status = 'filling';
+      watched.languages[language.code] = language.name;
+      watched.selectedLanguage = language.code;
+      elements.form.reset();
+    } catch (error) {
+      watched.forms.status = 'failed';
+      throw error;
+    }
+  };
+
+  elements.forms.fileForm.form.addEventListener('submit', handleAddLanguage(elements.forms.fileForm, watched));
+
+  elements.forms.accordionForm.form.addEventListener('submit', handleAddLanguage(elements.forms.accordionForm, watched));
 };
