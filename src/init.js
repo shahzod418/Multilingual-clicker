@@ -10,7 +10,7 @@ export default async () => {
     debug: false,
     resources: {
       en,
-      ru
+      ru,
     },
   });
 

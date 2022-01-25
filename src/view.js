@@ -48,7 +48,10 @@ const renderFooter = (i18n, elements) => {
 };
 
 const renderClicksCount = (i18n, state, clicksButton) => {
-  clicksButton.textContent = i18n.t('buttons.counter.count_interval', { postProcess: 'interval', count: state.clicksCount });
+  clicksButton.textContent = i18n.t('buttons.counter.count_interval', {
+    postProcess: 'interval',
+    count: state.clicksCount,
+  });
 };
 
 const renderForm = (status, element) => {

@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 import has from 'lodash/has';
-import isNull from "lodash/isNull";
+import isNull from 'lodash/isNull';
 import isUndefined from 'lodash/isUndefined';
-import isEmpty from "lodash/isEmpty";
+import isEmpty from 'lodash/isEmpty';
 import initView from './view';
 
 const readFileAsync = (file) => {
@@ -22,7 +22,7 @@ const readFileAsync = (file) => {
 const schema = {
   file: yup
     .mixed()
-      .test('Empty', 'Add file', (file) => !isUndefined(file))
+    .test('Empty', 'Add file', (file) => !isUndefined(file))
     .test('fileSize', 'File Size is too large', (file) => {
       if (isUndefined(file)) return true;
       return file.size <= 2000;
@@ -122,6 +122,52 @@ const handleModalClose = (watched) => () => {
   watched.uiState.modal.visibility = 'hidden';
 };
 
+const handleAddLanguage = (elements, watched, i18n) => async (event) => {
+  event.preventDefault();
+  const language = {};
+  const errors = [];
+
+  await Promise.all(
+    Object.entries(elements).map(async ([, element]) => {
+      if (has(element.attributes, 'data-form')) {
+        const error = await handleInputValid(watched)({ target: element });
+        if (!isNull(error)) errors.push(error);
+      }
+    }),
+  );
+
+  if (!isEmpty(errors)) return;
+
+  const formData = new FormData(event.target);
+
+  if (formData.has('file')) {
+    const file = formData.get('file');
+    const code = file.name.match(/[^.json]/gm).join('');
+    const fileData = await readFileAsync(file);
+    language.code = code;
+    language.value = JSON.parse(fileData);
+  } else {
+    const json = formData.get('json');
+    language.code = formData.get('code');
+    language.value = JSON.parse(json);
+  }
+
+  language.name = formData.get('language');
+
+  try {
+    watched.forms.status = 'loading';
+    await i18n.addResourceBundle(language.code, 'translation', language.value);
+    await i18n.reloadResources();
+    watched.forms.status = 'filling';
+    watched.languages[language.code] = language.name;
+    watched.selectedLanguage = language.code;
+    elements.form.reset();
+  } catch (error) {
+    watched.forms.status = 'failed';
+    throw error;
+  }
+};
+
 export default (i18n, state) => {
   const elements = {
     header: document.querySelector('h1'),
@@ -185,51 +231,13 @@ export default (i18n, state) => {
 
   elements.forms.accordionForm.jsonInput.addEventListener('input', handleInputValid(watched));
 
-  const handleAddLanguage = (elements, watched) => async (event) => {
-    event.preventDefault();
-    const language = {};
-    const errors = [];
+  elements.forms.fileForm.form.addEventListener(
+    'submit',
+    handleAddLanguage(elements.forms.fileForm, watched, i18n),
+  );
 
-    await Promise.all(Object.entries(elements).map(async ([, element]) => {
-      if (has(element.attributes, 'data-form')) {
-        const error = await (handleInputValid(watched)({ target: element }));
-        if (!isNull(error)) errors.push(error);
-      }
-    }));
-
-    if (!isEmpty(errors)) return;
-
-    const formData = new FormData(event.target);
-
-    if (formData.has('file')) {
-      const file = formData.get('file');
-      const code = file.name.match(/[^\.json]/gm).join('');
-      const fileData = await readFileAsync(file);
-      language.code = code;
-      language.value = JSON.parse(fileData);
-    } else {
-      const json = formData.get('json');
-      language.code = formData.get('code');
-      language.value = JSON.parse(json);
-    }
-
-    language.name = formData.get('language');
-
-    try {
-      watched.forms.status = 'loading';
-      await i18n.addResourceBundle(language.code, 'translation', language.value);
-      await i18n.reloadResources();
-      watched.forms.status = 'filling';
-      watched.languages[language.code] = language.name;
-      watched.selectedLanguage = language.code;
-      elements.form.reset();
-    } catch (error) {
-      watched.forms.status = 'failed';
-      throw error;
-    }
-  };
-
-  elements.forms.fileForm.form.addEventListener('submit', handleAddLanguage(elements.forms.fileForm, watched));
-
-  elements.forms.accordionForm.form.addEventListener('submit', handleAddLanguage(elements.forms.accordionForm, watched));
+  elements.forms.accordionForm.form.addEventListener(
+    'submit',
+    handleAddLanguage(elements.forms.accordionForm, watched, i18n),
+  );
 };
