@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, './src/index.js'),
+    main: path.resolve(__dirname, './source/index.js'),
   },
   output: {
     path: path.resolve(__dirname, './public'),
@@ -30,7 +30,6 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Davlatov frontend project',
       template: path.resolve(__dirname, 'assets', './template.html'),
       filename: 'index.html',
     }),
