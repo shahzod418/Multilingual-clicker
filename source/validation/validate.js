@@ -24,12 +24,16 @@ const schema = {
           JSON.parse(data);
           return true;
         } catch (error) {
-          return false;
+          return null;
         }
       }),
     )
-    .test('fileData', 'Invalid JSON data', (file) =>
-      readFileAsync(file).then((data) => validateJsonData(JSON.parse(data))),
+    .test('fileData', (file) =>
+      readFileAsync(file).then((data) => {
+          const errors = validateJsonData(JSON.parse(data));
+          if (errors.length === 0) return true;
+          throw new Error(`Keys not found: ${errors.join((', '))}`);
+      }),
     ),
   input: yup
     .string()
@@ -46,7 +50,11 @@ const schema = {
         return false;
       }
     })
-    .test('jsonData', 'Invalid JSON data', (data) => validateJsonData(JSON.parse(data))),
+    .test('jsonData', (data) => {
+        const errors = validateJsonData(JSON.parse(data));
+        if (errors.length === 0) return true;
+        throw new Error(`Keys not found: ${errors.join((', '))}`);
+    }),
 };
 
 export default async (type, value) => {

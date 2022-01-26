@@ -2,19 +2,22 @@ import { has, isObject } from 'lodash';
 import example from '../components/example.json';
 
 export default (data) => {
-  const error = [];
+  const errors = [];
 
-  Object.entries(data).forEach(([key, value]) => {
+  Object.entries(example).forEach(([key, value]) => {
     if (isObject(value)) {
       Object.entries(value).forEach(([keyDeep, valueDeep]) => {
         if (!isObject(valueDeep)) {
-          return error.push(has(example, `${key}.${keyDeep}`));
+          if (has(data, `${key}.${keyDeep}`)) return;
+          errors.push(keyDeep);
         }
-        return error.push(isObject(value));
+        if (isObject(value)) return;
+        errors.push(value);
       });
     }
-    return error.push(has(example, key));
+    if (has(data, key)) return;
+    errors.push(key);
   });
 
-  return !error.includes(false);
+  return errors;
 };
