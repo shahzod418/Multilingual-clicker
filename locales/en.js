@@ -17,6 +17,7 @@ export default {
       example: 'Example',
       accordionHeader: 'Manual input',
       close: 'Close',
+      copy: 'Copy',
     },
     footer: 'created by',
   },

@@ -19,6 +19,7 @@ export default {
       example: 'Пример',
       accordionHeader: 'Ручной ввод',
       close: 'Закрыть',
+      copy: 'Копировать',
     },
     footer: 'создан',
   },

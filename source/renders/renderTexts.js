@@ -1,7 +1,7 @@
 export default (i18n, elements) => {
   elements.modal.title.textContent = i18n.t('forms.example');
   elements.modal.openButton.textContent = i18n.t('forms.example');
-  elements.modal.closeButton.textContent = i18n.t('forms.close');
+  elements.modal.clipboardButton.textContent = i18n.t('forms.copy');
   elements.header.textContent = i18n.t('header');
   elements.resetButton.textContent = i18n.t('buttons.reset');
   elements.forms.fileForm.addLanguageLabel.textContent = i18n.t('forms.label');

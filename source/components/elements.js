@@ -9,7 +9,7 @@ export default {
     title: document.querySelector('.modal-title'),
     body: document.querySelector('.modal-body'),
     openButton: document.querySelector('#example'),
-    closeButton: document.querySelector('[data-bs-dismiss="modal"]'),
+    clipboardButton: document.querySelector('#clipboard'),
   },
   forms: {
     fileForm: {

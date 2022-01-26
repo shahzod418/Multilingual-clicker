@@ -15,7 +15,8 @@
     "code": "Code",
     "example": "Beispiel",
     "accordionHeader": "Manuelle Eingabe",
-    "close": "Schließen"
+    "close": "Schließen",
+    "copy": "Kopieren"
   },
   "footer": "erstellt von"
 }

@@ -20,6 +20,9 @@ export default async () => {
       modal: {
         visibility: 'hidden',
       },
+      clipboard: {
+        status: 'uncopied',
+      },
     },
     languages: {
       en: 'English',

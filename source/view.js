@@ -7,10 +7,13 @@ import renderClicksCount from './renders/renderClicksCount';
 import renderButtons from './renders/renderButtons';
 import renderTexts from './renders/renderTexts';
 import renderFooter from './renders/renderFooter';
+import renderClipboard from './renders/renderClipboard';
 
 export default (i18n, state, elements) => {
   const mapping = {
     'uiState.modal.visibility': () => renderModal(state.uiState.modal.visibility, elements),
+    'uiState.clipboard.status': () =>
+      renderClipboard(i18n, state.uiState.clipboard.status, elements.modal.clipboardButton),
     'forms.valid': () => {
       elements.forms.fileForm.submitButton.disabled = !state.forms.valid;
       elements.forms.accordionForm.submitButton.disabled = !state.forms.valid;
