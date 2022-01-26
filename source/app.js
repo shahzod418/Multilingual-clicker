@@ -17,7 +17,6 @@ export default (i18n, state) => {
   elements.forms.fileForm.fileInput.addEventListener('change', handleInputValid(watched));
   elements.modal.element.addEventListener('click', handleModalToggle(watched));
   elements.modal.openButton.addEventListener('click', handleModalToggle(watched));
-  elements.modal.closeButton.addEventListener('click', handleModalToggle(watched));
   elements.forms.fileForm.languageInput.addEventListener('input', handleInputValid(watched));
   elements.forms.accordionForm.languageInput.addEventListener('input', handleInputValid(watched));
   elements.forms.accordionForm.codeInput.addEventListener('input', handleInputValid(watched));
