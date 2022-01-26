@@ -7,7 +7,13 @@ export default (watched) =>
     const type = target.dataset.validate;
 
     if (target.files) {
-      watched.forms.errors = await validate(type, target.files[0]);
+      const error = await validate(type, target.files[0]);
+
+      if (!error) {
+        watched.uiState.file.status = 'loaded';
+      }
+
+      watched.forms.errors = error;
     } else {
       watched.forms.errors = await validate(type, target.value);
     }

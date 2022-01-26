@@ -47,6 +47,7 @@ export default (elements, watched, i18n) => async (event) => {
     watched.forms.status = 'loading';
     await i18n.addResourceBundle(language.code, 'translation', language.value);
     await i18n.reloadResources();
+    watched.uiState.file.status = 'unloaded';
     watched.forms.status = 'filling';
     watched.languages[language.code] = language.name;
     watched.selectedLanguage = language.code;

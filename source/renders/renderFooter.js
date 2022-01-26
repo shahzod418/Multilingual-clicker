@@ -6,9 +6,10 @@ export default (i18n, elements) => {
   const link = document.createElement('a');
   link.setAttribute('target', '_blank');
   link.setAttribute('href', author.link);
+  link.classList.add('text-decoration-none', 'text-muted');
   link.textContent = author.name;
 
-  const text = document.createTextNode(`${i18n.t('footer')} `);
+  const text = document.createTextNode(`${author.copyright} `);
 
   elements.footerText.append(text, link);
 };

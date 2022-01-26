@@ -17,6 +17,9 @@ export default async () => {
 
   const state = {
     uiState: {
+      file: {
+        status: 'unloaded',
+      },
       modal: {
         visibility: 'hidden',
       },

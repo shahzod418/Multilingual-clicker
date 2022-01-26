@@ -19,6 +19,5 @@ export default {
       close: 'Close',
       copy: 'Copy',
     },
-    footer: 'created by',
   },
 };

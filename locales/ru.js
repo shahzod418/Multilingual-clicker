@@ -21,6 +21,5 @@ export default {
       close: 'Закрыть',
       copy: 'Копировать',
     },
-    footer: 'создан',
   },
 };

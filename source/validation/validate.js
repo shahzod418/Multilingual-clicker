@@ -1,20 +1,24 @@
 import * as yup from 'yup';
-import isUndefined from 'lodash/isUndefined';
 import readFileAsync from '../readFile/readFileAsync';
+import validateJsonData from './validateJsonData';
 
 const schema = {
   file: yup
     .mixed()
-    .test('Empty', 'Add file', (file) => !isUndefined(file))
+    .required()
     .test('fileSize', 'File Size is too large', (file) => {
-      if (isUndefined(file)) return true;
-      return file.size <= 2000;
+      if (file) {
+        return file.size <= 2000;
+      }
+      return null;
     })
     .test('fileType', 'Unsupported File Format', (file) => {
-      if (isUndefined(file)) return true;
-      return file.type === 'application/json';
+      if (file) {
+        return file.type === 'application/json';
+      }
+      return null;
     })
-    .test('JSON', 'Invalid JSON format', (file) =>
+    .test('fileFormat', 'Invalid JSON format', (file) =>
       readFileAsync(file).then((data) => {
         try {
           JSON.parse(data);
@@ -23,6 +27,9 @@ const schema = {
           return false;
         }
       }),
+    )
+    .test('fileData', 'Invalid JSON data', (file) =>
+      readFileAsync(file).then((data) => validateJsonData(data)),
     ),
   input: yup
     .string()
@@ -31,14 +38,15 @@ const schema = {
   json: yup
     .string()
     .required()
-    .test('JSON', 'Invalid JSON format', (string) => {
+    .test('jsonFormat', 'Invalid JSON format', (data) => {
       try {
-        JSON.parse(string);
+        JSON.parse(data);
         return true;
       } catch (error) {
         return false;
       }
-    }),
+    })
+    .test('jsonData', 'Invalid JSON data', (data) => validateJsonData(JSON.parse(data))),
 };
 
 export default async (type, value) => {
