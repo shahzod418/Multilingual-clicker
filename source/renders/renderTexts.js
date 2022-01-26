@@ -1,4 +1,5 @@
 export default (i18n, elements) => {
+  elements.toast.body.textContent = i18n.t('toast');
   elements.modal.title.textContent = i18n.t('forms.example');
   elements.modal.openButton.textContent = i18n.t('forms.example');
   elements.modal.clipboardButton.textContent = i18n.t('forms.copy');

@@ -1,7 +1,7 @@
-export default (watched) =>
+export default (state) =>
   ({ target }) => {
     if (target.id === 'modal' || target.dataset.bs === 'modal') {
-      watched.uiState.modal.visibility =
-        watched.uiState.modal.visibility === 'hidden' ? 'shown' : 'hidden';
+      state.uiState.modal.visibility =
+        state.uiState.modal.visibility === 'hidden' ? 'shown' : 'hidden';
     }
   };

@@ -16,7 +16,7 @@ export default (i18n, state) => {
   elements.clicksButton.addEventListener('click', handleAddClicksCount(watched));
   elements.resetButton.addEventListener('click', handleResetClicksCount(watched));
   elements.forms.fileForm.fileInput.addEventListener('change', handleInputValid(watched));
-  elements.modal.element.addEventListener('click', handleModalToggle(watched));
+  elements.modal.container.addEventListener('click', handleModalToggle(watched));
   elements.modal.openButton.addEventListener('click', handleModalToggle(watched));
   elements.modal.clipboardButton.addEventListener('click', handleWriteClipboard(watched));
   elements.forms.fileForm.languageInput.addEventListener('input', handleInputValid(watched));

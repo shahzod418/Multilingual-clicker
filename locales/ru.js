@@ -9,6 +9,7 @@ export default {
       },
       reset: 'Сбросить',
     },
+    toast: 'Упс! Что-то пошло не так',
     forms: {
       label: 'Добавить язык',
       placeholder: 'Язык',

@@ -7,6 +7,7 @@ export default {
       },
       reset: 'Reset',
     },
+    toast: 'Oops! Something went wrong',
     forms: {
       label: 'Add language',
       placeholder: 'Language',

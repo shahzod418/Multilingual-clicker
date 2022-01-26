@@ -8,7 +8,7 @@ export default (status, elements) => {
   text.textContent = JSON.stringify(example, null, '  ');
   elements.modal.body.append(text);
 
-  const modal = new Modal(elements.modal.element);
+  const modal = new Modal(elements.modal.container);
 
   switch (status) {
     case 'hidden':

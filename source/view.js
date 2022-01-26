@@ -8,6 +8,7 @@ import renderButtons from './renders/renderButtons';
 import renderTexts from './renders/renderTexts';
 import renderFooter from './renders/renderFooter';
 import renderButtonStatus from './renders/renderButtonStatus';
+import renderToast from './renders/renderToast';
 
 export default (i18n, state, elements) => {
   const mapping = {
@@ -23,6 +24,7 @@ export default (i18n, state, elements) => {
     'forms.status': () => {
       renderForm(state.forms.status, elements.forms);
     },
+    'forms.error': () => renderToast(elements.toast.container),
     'forms.fileForm.fields.file.error': () =>
       renderError(state.forms.fileForm.fields.file.error, elements.forms.fileForm.fileInput),
     'forms.fileForm.fields.language.error': () =>

@@ -6,6 +6,7 @@
     },
     "reset": "Zurücksetzen"
   },
+  "toast": "Huch! Etwas ist schief gelaufen",
   "forms": {
     "label": "Sprache hinzufügen",
     "placeholder": "Sprache",

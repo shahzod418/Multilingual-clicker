@@ -36,6 +36,7 @@ export default async () => {
     forms: {
       valid: true,
       status: 'filling',
+      error: null,
       fileForm: {
         fields: {
           file: {

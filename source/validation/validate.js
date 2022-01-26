@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import readFileAsync from '../readFile/readFileAsync';
+import readFileAsync from '../functions/readFileAsync';
 import validateJsonData from './validateJsonData';
 
 const schema = {
@@ -29,7 +29,7 @@ const schema = {
       }),
     )
     .test('fileData', 'Invalid JSON data', (file) =>
-      readFileAsync(file).then((data) => validateJsonData(data)),
+      readFileAsync(file).then((data) => validateJsonData(JSON.parse(data))),
     ),
   input: yup
     .string()

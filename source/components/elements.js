@@ -4,8 +4,12 @@ export default {
   clickerContainer: document.querySelector('#clicker'),
   clicksButton: document.querySelector('#clicksButton'),
   resetButton: document.querySelector('#resetButton'),
+  toast: {
+    container: document.querySelector('.toast'),
+    body: document.querySelector('.toast-body'),
+  },
   modal: {
-    element: document.querySelector('#modal'),
+    container: document.querySelector('#modal'),
     title: document.querySelector('.modal-title'),
     body: document.querySelector('.modal-body'),
     openButton: document.querySelector('#example'),
