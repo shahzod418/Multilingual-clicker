@@ -6,8 +6,8 @@ import renderClicksCount from '../renders/renderClicksCount';
 import renderButtons from '../renders/renderButtons';
 import renderTexts from '../renders/renderTexts';
 import renderFooter from '../renders/renderFooter';
-import renderFileLoadStatus from "../renders/renderFileLoadStatus";
-import renderClipboardStatus from "../renders/renderClipboardStatus";
+import renderFileLoadStatus from '../renders/renderFileLoadStatus';
+import renderClipboardStatus from '../renders/renderClipboardStatus';
 import { i18n } from '../init';
 import elements from '../components/elements';
 
