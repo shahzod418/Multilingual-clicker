@@ -1,50 +1,65 @@
 import * as yup from 'yup';
+import { i18n } from '../init';
 import readFileAsync from '../functions/readFileAsync';
-import dataTest from './dataTest';
+import validateData from './validateData';
 
-yup.setLocale({});
+yup.setLocale({
+  mixed: {
+    required: () => i18n.t('validate.require'),
+  },
+  string: {
+    required: () => i18n.t('validate.require'),
+    matches: () => i18n.t('validate.matches'),
+  },
+});
 
 export default {
   file: yup
     .mixed()
     .required()
-    .test('fileSize', 'File Size is too large', (file) => {
+    .test('fileSize', (file) => {
       if (file) {
-        return file.size <= 2000;
+        if (file.size <= 2000) return true;
+        throw new Error(i18n.t('validate.require'));
       }
       return null;
     })
-    .test('fileType', 'Unsupported File Format', (file) => {
+    .test('fileType', (file) => {
       if (file) {
-        return file.type === 'application/json';
+        if (file.type === 'application/json') return true;
+        throw new Error(i18n.t('validate.type'));
       }
       return null;
     })
-    .test('fileFormat', 'Invalid JSON format', (file) =>
+    .test('fileFormat', (file) =>
       readFileAsync(file).then((data) => {
         try {
           JSON.parse(data);
           return true;
         } catch (error) {
-          return null;
+          throw new Error(i18n.t('validate.format'));
         }
       }),
     )
-    .test('fileData', (file) => readFileAsync(file).then((data) => dataTest(data))),
+    .test('fileData', (file) => readFileAsync(file).then((data) => validateData(data))),
   input: yup
     .string()
     .required()
-    .matches(/^[a-zA-Z]+$/g, 'Latin letters only without space'),
+    .matches(/^[a-zA-Z]+$/g),
   json: yup
     .string()
     .required()
-    .test('jsonFormat', 'Invalid JSON format', (data) => {
+    .test('jsonFormat', (data) => {
+      if (data === '') return null;
       try {
         JSON.parse(data);
         return true;
       } catch (error) {
-        return false;
+        throw new Error(i18n.t('validate.format'));
       }
     })
-    .test('jsonData', (data) => dataTest(data)),
+    .test('jsonData', (data) => {
+      if (data === '') return null;
+      return validateData(data);
+    }),
 };

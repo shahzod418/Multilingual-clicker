@@ -1,17 +1,16 @@
-export default (error, element) => {
-  const invalidFeedback = element.nextElementSibling;
-  if (invalidFeedback) invalidFeedback.remove();
+import mappingFileErrors from '../functions/mappingFileErrors';
+import mappingAccordionErrors from '../functions/mappingAccordionErrors';
 
-  if (!error) {
-    element.classList.remove('is-invalid');
-    return;
-  }
+export default (state, elements) => {
+  Object.entries(state.forms.fileForm.fields).forEach(([field, value]) => {
+    if (value.error) {
+      mappingFileErrors(field, value.error, elements);
+    }
+  });
 
-  element.classList.add('is-invalid');
-
-  const feedback = document.createElement('div');
-  feedback.classList.add('invalid-feedback', 'text-center');
-  feedback.textContent = error;
-
-  element.after(feedback);
+  Object.entries(state.forms.accordionForm.fields).forEach(([field, value]) => {
+    if (value.error) {
+      mappingAccordionErrors(field, value.error, elements);
+    }
+  });
 };

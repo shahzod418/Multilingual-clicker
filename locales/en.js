@@ -20,5 +20,13 @@ export default {
       close: 'Close',
       copy: 'Copy',
     },
+    validate: {
+      require: 'this is a required field',
+      size: 'file size is too large',
+      type: 'unsupported file type',
+      matches: 'latin letters only without space',
+      format: 'invalid JSON format',
+      data: 'keys not found',
+    },
   },
 };

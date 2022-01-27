@@ -18,5 +18,13 @@
     "accordionHeader": "Manuelle Eingabe",
     "close": "Schließen",
     "copy": "Kopieren"
+  },
+  "validate": {
+    "require": "dies ist ein pflichtfeld",
+    "size": "dateigröße ist zu groß",
+    "type": "nicht unterstützter dateityp",
+    "matches": "nur lateinische buchstaben ohne leerzeichen",
+    "format": "ungültiges JSON format",
+    "data": "schlüssel nicht gefunden"
   }
 }

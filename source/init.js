@@ -5,8 +5,7 @@ import intervalPlural from 'i18next-intervalplural-postprocessor';
 import en from '../locales/en';
 import ru from '../locales/ru';
 
-export default async () => {
-  const i18n = i18next.createInstance();
+const initI18n = async (i18n) => {
   await i18n.use(LanguageDetector).use(intervalPlural).init({
     debug: false,
     resources: {
@@ -14,6 +13,12 @@ export default async () => {
       ru,
     },
   });
+};
+
+export const i18n = i18next.createInstance();
+
+export default async () => {
+  await initI18n(i18n);
 
   const state = {
     uiState: {

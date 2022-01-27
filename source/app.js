@@ -22,7 +22,7 @@ export default (i18n, state) => {
   elements.forms.fileForm.languageInput.addEventListener('input', handleInputValid(watched));
   elements.forms.accordionForm.languageInput.addEventListener('input', handleInputValid(watched));
   elements.forms.accordionForm.codeInput.addEventListener('input', handleInputValid(watched));
-  elements.forms.accordionForm.jsonInput.addEventListener('input', handleInputValid(watched));
+  elements.forms.accordionForm.jsonInput.addEventListener('change', handleInputValid(watched));
   elements.forms.fileForm.form.addEventListener(
     'submit',
     handleAddLanguage(elements.forms.fileForm, watched, i18n),
