@@ -15,6 +15,6 @@ export default (field, error, elements) => {
       break;
 
     default:
-      break;
+      throw new Error(`Unknown field: ${field}`);
   }
 };

@@ -16,6 +16,6 @@ export default (status, element) => {
       break;
 
     default:
-      throw Error(`Unknown form status: ${status}`);
+      throw Error(`Unknown status: ${status}`);
   }
 };
