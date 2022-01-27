@@ -2,8 +2,8 @@ import i18next from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import intervalPlural from 'i18next-intervalplural-postprocessor';
 
-import en from '../locales/en';
-import ru from '../locales/ru';
+import en from '../locales/en.json';
+import ru from '../locales/ru.json';
 
 const initI18n = async (i18n) => {
   await i18n.use(LanguageDetector).use(intervalPlural).init({
