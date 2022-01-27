@@ -1,5 +1,7 @@
 export default (element, error) => {
-  const invalidFeedback = element.nextElementSibling;
+  const container = element.parentElement;
+
+  const invalidFeedback = container.querySelector('.invalid-feedback');
   if (invalidFeedback) invalidFeedback.remove();
 
   if (!error) {

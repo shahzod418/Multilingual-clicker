@@ -1,5 +1,4 @@
 import renderModal from '../renders/renderModal';
-import renderButtonStatus from '../renders/renderButtonStatus';
 import renderForm from '../renders/renderForm';
 import renderToast from '../renders/renderToast';
 import renderError from '../renders/renderError';
@@ -7,6 +6,8 @@ import renderClicksCount from '../renders/renderClicksCount';
 import renderButtons from '../renders/renderButtons';
 import renderTexts from '../renders/renderTexts';
 import renderFooter from '../renders/renderFooter';
+import renderFileLoadStatus from "../renders/renderFileLoadStatus";
+import renderClipboardStatus from "../renders/renderClipboardStatus";
 import { i18n } from '../init';
 import elements from '../components/elements';
 
@@ -14,9 +15,9 @@ export default (state) => {
   return {
     'uiState.modal.visibility': () => renderModal(state.uiState.modal.visibility, elements),
     'uiState.file.status': () =>
-      renderButtonStatus(i18n, state.uiState.file.status, elements.forms.fileForm.fileLabel),
+      renderFileLoadStatus(state.uiState.file.status, elements.forms.fileForm.fileLabel),
     'uiState.clipboard.status': () =>
-      renderButtonStatus(i18n, state.uiState.clipboard.status, elements.modal.clipboardButton),
+      renderClipboardStatus(state.uiState.clipboard.status, elements.modal.clipboardButton),
     'forms.valid': () => {
       elements.forms.fileForm.submitButton.disabled = !state.forms.valid;
       elements.forms.accordionForm.submitButton.disabled = !state.forms.valid;

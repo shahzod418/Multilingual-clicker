@@ -1,8 +1,9 @@
 import isEmpty from 'lodash/isEmpty';
 import getLanguage from '../functions/getLanguage';
-import mappingInputs from '../functions/mappingInputs';
+import mappingInputs from '../mapping/mappingInputs';
+import { i18n } from '../init';
 
-export default (elements, state, i18n) => async (event) => {
+export default (elements, state) => async (event) => {
   event.preventDefault();
   const errors = [];
 

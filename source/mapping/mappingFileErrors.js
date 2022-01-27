@@ -1,7 +1,7 @@
-import buildError from './buildError';
+import buildError from '../functions/buildError';
 
-export default (path, error, elements) => {
-  switch (path) {
+export default (field, error, elements) => {
+  switch (field) {
     case 'file':
       buildError(elements.forms.fileForm.fileLabel, error);
       break;

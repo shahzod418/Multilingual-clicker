@@ -1,16 +1,12 @@
-import mappingFileErrors from '../functions/mappingFileErrors';
-import mappingAccordionErrors from '../functions/mappingAccordionErrors';
+import mappingFileErrors from '../mapping/mappingFileErrors';
+import mappingAccordionErrors from '../mapping/mappingAccordionErrors';
 
 export default (state, elements) => {
   Object.entries(state.forms.fileForm.fields).forEach(([field, value]) => {
-    if (value.error) {
-      mappingFileErrors(field, value.error, elements);
-    }
+    mappingFileErrors(field, value.error, elements);
   });
 
   Object.entries(state.forms.accordionForm.fields).forEach(([field, value]) => {
-    if (value.error) {
-      mappingAccordionErrors(field, value.error, elements);
-    }
+    mappingAccordionErrors(field, value.error, elements);
   });
 };

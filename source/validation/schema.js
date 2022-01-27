@@ -20,7 +20,7 @@ export default {
     .test('fileSize', (file) => {
       if (file) {
         if (file.size <= 2000) return true;
-        throw new Error(i18n.t('validate.require'));
+        throw new Error(i18n.t('validate.size'));
       }
       return null;
     })

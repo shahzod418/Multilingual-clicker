@@ -1,6 +1,6 @@
 import validate from '../validation/validate';
 
-export default (watched) =>
+export default (state) =>
   async ({ target }) => {
     const { form } = target.dataset;
     const { field } = target.dataset;
@@ -10,22 +10,22 @@ export default (watched) =>
       const error = await validate(type, target.files[0]);
 
       if (!error) {
-        watched.uiState.file.status = 'loaded';
+        state.uiState.file.status = 'loaded';
       }
 
-      watched.forms.errors = error;
+      state.forms.errors = error;
     } else {
-      watched.forms.errors = await validate(type, target.value);
+      state.forms.errors = await validate(type, target.value);
     }
 
-    if (watched.forms.errors) {
-      watched.forms[form].fields[field].error = watched.forms.errors;
-      watched.forms.valid = false;
-      return watched.forms.errors;
+    if (state.forms.errors) {
+      state.forms[form].fields[field].error = state.forms.errors;
+      state.forms.valid = false;
+      return state.forms.errors;
     }
 
-    watched.forms[form].fields[field].error = null;
-    watched.forms.valid = true;
+    state.forms[form].fields[field].error = null;
+    state.forms.valid = true;
 
     return null;
   };

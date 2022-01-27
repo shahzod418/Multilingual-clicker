@@ -7,7 +7,7 @@ export default async (elements, state, errors) => {
       if (has(element.attributes, 'data-form')) {
         const error = await handleInputValid(state)({ target: element });
         if (error) {
-          if (errors) errors.push(error);
+          errors.push(error);
         }
       }
     }),

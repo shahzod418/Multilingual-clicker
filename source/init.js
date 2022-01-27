@@ -68,5 +68,5 @@ export default async () => {
     },
   };
 
-  return { i18n, state };
+  return state;
 };

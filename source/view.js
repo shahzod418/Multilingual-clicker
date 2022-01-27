@@ -4,9 +4,11 @@ import renderClicksCount from './renders/renderClicksCount';
 import renderButtons from './renders/renderButtons';
 import renderTexts from './renders/renderTexts';
 import renderFooter from './renders/renderFooter';
-import mappingView from './functions/mappingView';
+import mappingView from './mapping/mappingView';
+import elements from './components/elements';
+import { i18n } from './init';
 
-export default (i18n, state, elements) => {
+export default (state) => {
   const watchedState = onChange(state, (path) => {
     if (mappingView(state)[path]) {
       mappingView(state)[path]();

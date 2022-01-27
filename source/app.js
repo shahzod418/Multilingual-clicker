@@ -9,8 +9,8 @@ import handleModalToggle from './handlers/handleModalToggle';
 import handleAddLanguage from './handlers/handleAddLanguage';
 import handleWriteClipboard from './handlers/handleWriteClipboard';
 
-export default (i18n, state) => {
-  const watched = initView(i18n, state, elements);
+export default (state) => {
+  const watched = initView(state);
 
   elements.lngToggle.addEventListener('click', handleSwitchLanguage(watched));
   elements.clicksButton.addEventListener('click', handleAddClicksCount(watched));
@@ -25,10 +25,10 @@ export default (i18n, state) => {
   elements.forms.accordionForm.jsonInput.addEventListener('change', handleInputValid(watched));
   elements.forms.fileForm.form.addEventListener(
     'submit',
-    handleAddLanguage(elements.forms.fileForm, watched, i18n),
+    handleAddLanguage(elements.forms.fileForm, watched),
   );
   elements.forms.accordionForm.form.addEventListener(
     'submit',
-    handleAddLanguage(elements.forms.accordionForm, watched, i18n),
+    handleAddLanguage(elements.forms.accordionForm, watched),
   );
 };
